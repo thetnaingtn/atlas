@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log/slog"
 	"net/http"
 	"os"
@@ -17,16 +18,17 @@ import (
 )
 
 func main() {
-	config := &config.Config{
-		Addr:        getEnv("ADDR", ""),
-		DatabaseURL: getEnv("DATABASE_URL", "atlas.db"),
-		Port:        getEnv("PORT", "8080"),
-		Environment: getEnv("ENVIRONMENT", "development"),
+	// Load configuration using the new Viper-based system with --config flag support
+	config, err := config.NewConfig()
+	if err != nil {
+		slog.Error("failed to load configuration", "error", err)
+		os.Exit(1)
 	}
 
 	driver, err := db.NewDBDriver(config)
 	if err != nil {
-		panic(err)
+		slog.Error("failed to create database driver", "error", err)
+		os.Exit(1)
 	}
 
 	ctx, cancel := context.WithCancel(context.Background())
@@ -50,11 +52,7 @@ func main() {
 		}
 	}
 
-	address := config.Addr
-	if address == "" {
-		address = "localhost"
-	}
-	slog.Info("Server started", "address", address+":"+config.Port)
+	slog.Info("Server started", "address", fmt.Sprintf("%s:%s", config.Server.Addr, config.Server.Port), "environment", config.Environment)
 
 	go func() {
 		<-c
@@ -65,11 +63,4 @@ func main() {
 	}()
 
 	<-ctx.Done()
-}
-
-func getEnv(key, defaultValue string) string {
-	if value := os.Getenv(key); value != "" {
-		return value
-	}
-	return defaultValue
 }
