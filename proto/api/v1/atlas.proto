@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package api.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+option go_package = "gen/api/v1;v1";
+
+// AtlasService defines the main gRPC service
+service AtlasService {
+  // Health check endpoint
+  rpc Health(HealthRequest) returns (HealthResponse) {
+    option (google.api.http) = {
+      get: "/api/v1/health"
+    };
+  }
+  
+  // Add your service methods here
+}
+
+// HealthRequest represents a health check request
+message HealthRequest {}
+
+// HealthResponse represents a health check response
+message HealthResponse {
+  string status = 1;
+  google.protobuf.Timestamp timestamp = 2;
+}
