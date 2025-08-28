@@ -19,25 +19,26 @@ import (
 
 type APIV1Service struct {
 	apiv1.UnimplementedAtlasServiceServer
-	store      *store.Store
+	store      store.Store
 	grpcServer *grpc.Server
 	config     *config.Config
 }
 
-func NewAPIV1Service(store *store.Store, config *config.Config, server *grpc.Server) *APIV1Service {
+// NewAPIV1Service creates a new instance of APIV1Service
+func NewAPIV1Service(grpcServer *grpc.Server, storeInstance store.Store, cfg *config.Config) *APIV1Service {
 	apiService := &APIV1Service{
-		store:      store,
-		grpcServer: server,
-		config:     config,
+		store:      storeInstance,
+		grpcServer: grpcServer,
+		config:     cfg,
 	}
 
-	apiv1.RegisterAtlasServiceServer(server, apiService)
+	apiv1.RegisterAtlasServiceServer(grpcServer, apiService)
 
 	return apiService
 }
 
 func (s *APIV1Service) RegisterGateway(ctx context.Context, mux *http.ServeMux) error {
-	address := fmt.Sprintf("%s:%s", s.config.Addr, s.config.Port)
+	address := fmt.Sprintf("%s:%s", s.config.Server.Addr, s.config.Server.Port)
 	conn, err := grpc.NewClient(address,
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
 		grpc.WithDefaultCallOptions(grpc.MaxCallRecvMsgSize(math.MaxInt32)),
@@ -58,7 +59,7 @@ func (s *APIV1Service) RegisterGateway(ctx context.Context, mux *http.ServeMux) 
 			return true
 		}),
 	}
-	frontendService := frontend.NewFrontendService(s.store, s.config)
+	frontendService := frontend.NewFrontendService(&s.store, s.config)
 	grpcWebProxy := grpcweb.WrapServer(s.grpcServer, grpcWebOptions...)
 
 	handler := func(w http.ResponseWriter, r *http.Request) {

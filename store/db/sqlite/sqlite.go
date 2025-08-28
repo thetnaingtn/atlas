@@ -17,11 +17,11 @@ type DB struct {
 }
 
 func NewDB(cfg *config.Config) (*DB, error) {
-	if cfg.DatabaseURL == "" {
+	if cfg.Database.DSN == "" {
 		return nil, ErrNoDatabaseURL
 	}
 
-	db, err := sql.Open("sqlite3", cfg.DatabaseURL)
+	db, err := sql.Open("sqlite3", cfg.Database.DSN)
 	if err != nil {
 		return nil, err
 	}

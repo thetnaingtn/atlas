@@ -35,7 +35,7 @@ func NewServer(ctx context.Context, store *store.Store, config *config.Config) (
 		),
 	)
 
-	service := v1.NewAPIV1Service(store, config, grpcServer)
+	service := v1.NewAPIV1Service(grpcServer, *store, config)
 
 	if err := service.RegisterGateway(ctx, mux); err != nil {
 		return nil, err
@@ -50,7 +50,7 @@ func NewServer(ctx context.Context, store *store.Store, config *config.Config) (
 }
 
 func (s *Server) Start() error {
-	address := fmt.Sprintf("%s:%s", s.Config.Addr, s.Config.Port)
+	address := fmt.Sprintf("%s:%s", s.Config.Server.Addr, s.Config.Server.Port)
 
 	listener, err := net.Listen("tcp", address)
 	if err != nil {
