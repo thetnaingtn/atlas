@@ -32,6 +32,21 @@ func NewDB(cfg *config.Config) (*DB, error) {
 		return nil, err
 	}
 
+	schema := `CREATE TABLE IF NOT EXISTS products (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                description TEXT,
+                price REAL NOT NULL,
+                cover TEXT,
+                created_at DATETIME NOT NULL,
+                updated_at DATETIME NOT NULL
+        );`
+
+	if _, err := db.Exec(schema); err != nil {
+		db.Close()
+		return nil, err
+	}
+
 	return &DB{
 		db:     db,
 		config: cfg,
