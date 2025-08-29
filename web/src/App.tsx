@@ -1,35 +1,58 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { ProductList } from './components/product-list'
+import { ProductDetail } from './components/product-detail'
+import { ProductForm } from './components/product-form'
+import type { Product } from './gen/api/v1/product_pb'
+import { productClient } from './lib/grpc'
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [view, setView] = useState<'list' | 'detail' | 'create' | 'edit'>('list')
+  const [selected, setSelected] = useState<Product | null>(null)
+
+  const handleCreate = async (p: Product) => {
+    await productClient.createProduct({ product: p })
+    setView('list')
+  }
+
+  const handleUpdate = async (p: Product) => {
+    await productClient.updateProduct({ product: p })
+    setSelected(p)
+    setView('detail')
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div className="p-4">
+      {view === 'list' && (
+        <ProductList
+          onSelect={(p) => {
+            setSelected(p)
+            setView('detail')
+          }}
+          onCreate={() => setView('create')}
+        />
+      )}
+      {view === 'detail' && selected && (
+        <ProductDetail
+          product={selected}
+          onEdit={() => setView('edit')}
+          onBack={() => setView('list')}
+        />
+      )}
+      {view === 'create' && (
+        <ProductForm
+          onSubmit={async (p) => {
+            await handleCreate(p)
+          }}
+        />
+      )}
+      {view === 'edit' && selected && (
+        <ProductForm
+          initial={selected}
+          onSubmit={async (p) => {
+            await handleUpdate(p)
+          }}
+        />
+      )}
+    </div>
   )
 }
-
-export default App
