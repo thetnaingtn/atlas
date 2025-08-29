@@ -5,6 +5,7 @@ import (
 
 	apiv1 "atlas/proto/gen/api/v1"
 	"atlas/store"
+
 	"google.golang.org/protobuf/types/known/emptypb"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
@@ -46,7 +47,7 @@ func (s *APIV1Service) ListProducts(ctx context.Context, req *apiv1.ListProducts
 	resp := &apiv1.ListProductsResponse{Products: make([]*apiv1.Product, 0, len(prods))}
 	for _, p := range prods {
 		cp := p // capture range variable
-		resp.Products = append(resp.Products, toProtoProduct(&cp))
+		resp.Products = append(resp.Products, toProtoProduct(cp))
 	}
 	return resp, nil
 }
