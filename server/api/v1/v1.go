@@ -19,6 +19,7 @@ import (
 
 type APIV1Service struct {
 	apiv1.UnimplementedAtlasServiceServer
+	apiv1.UnimplementedProductServiceServer
 	store      store.Store
 	grpcServer *grpc.Server
 	config     *config.Config
@@ -33,6 +34,7 @@ func NewAPIV1Service(grpcServer *grpc.Server, storeInstance store.Store, cfg *co
 	}
 
 	apiv1.RegisterAtlasServiceServer(grpcServer, apiService)
+	apiv1.RegisterProductServiceServer(grpcServer, apiService)
 
 	return apiService
 }
@@ -51,6 +53,9 @@ func (s *APIV1Service) RegisterGateway(ctx context.Context, mux *http.ServeMux) 
 	gwmux := runtime.NewServeMux()
 
 	if err := apiv1.RegisterAtlasServiceHandler(ctx, gwmux, conn); err != nil {
+		return err
+	}
+	if err := apiv1.RegisterProductServiceHandler(ctx, gwmux, conn); err != nil {
 		return err
 	}
 
