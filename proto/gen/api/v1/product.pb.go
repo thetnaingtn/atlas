@@ -419,9 +419,9 @@ const file_api_v1_product_proto_rawDesc = "" +
 	"\rCreateProduct\x12\x1c.api.v1.CreateProductRequest\x1a\x0f.api.v1.Product\"\x17\x82\xd3\xe4\x93\x02\x11:\x01*\"\f/v1/products\x12\\\n" +
 	"\rUpdateProduct\x12\x1c.api.v1.UpdateProductRequest\x1a\x0f.api.v1.Product\"\x1c\x82\xd3\xe4\x93\x02\x16:\x01*2\x11/v1/products/{id}\x12_\n" +
 	"\fListProducts\x12\x1b.api.v1.ListProductsRequest\x1a\x1c.api.v1.ListProductsResponse\"\x14\x82\xd3\xe4\x93\x02\x0e\x12\f/v1/products\x12`\n" +
-	"\rDeleteProduct\x12\x1c.api.v1.DeleteProductRequest\x1a\x16.google.protobuf.Empty\"\x19\x82\xd3\xe4\x93\x02\x13*\x11/v1/products/{id}Bg\n" +
+	"\rDeleteProduct\x12\x1c.api.v1.DeleteProductRequest\x1a\x16.google.protobuf.Empty\"\x19\x82\xd3\xe4\x93\x02\x13*\x11/v1/products/{id}B~\n" +
 	"\n" +
-	"com.api.v1B\fProductProtoP\x01Z\x12atlas/api/v1;apiv1\xa2\x02\x03AXX\xaa\x02\x06Api.V1\xca\x02\x06Api\\V1\xe2\x02\x12Api\\V1\\GPBMetadata\xea\x02\aApi::V1b\x06proto3"
+	"com.api.v1B\fProductProtoP\x01Z)github.com/thetnaingtn/atlas/api/v1;apiv1\xa2\x02\x03AXX\xaa\x02\x06Api.V1\xca\x02\x06Api\\V1\xe2\x02\x12Api\\V1\\GPBMetadata\xea\x02\aApi::V1b\x06proto3"
 
 var (
 	file_api_v1_product_proto_rawDescOnce sync.Once

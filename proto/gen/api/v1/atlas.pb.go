@@ -124,10 +124,10 @@ const file_api_v1_atlas_proto_rawDesc = "" +
 	"\x06status\x18\x01 \x01(\tR\x06status\x128\n" +
 	"\ttimestamp\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\ttimestamp2_\n" +
 	"\fAtlasService\x12O\n" +
-	"\x06Health\x12\x15.api.v1.HealthRequest\x1a\x16.api.v1.HealthResponse\"\x16\x82\xd3\xe4\x93\x02\x10\x12\x0e/api/v1/healthBe\n" +
+	"\x06Health\x12\x15.api.v1.HealthRequest\x1a\x16.api.v1.HealthResponse\"\x16\x82\xd3\xe4\x93\x02\x10\x12\x0e/api/v1/healthB|\n" +
 	"\n" +
 	"com.api.v1B\n" +
-	"AtlasProtoP\x01Z\x12atlas/api/v1;apiv1\xa2\x02\x03AXX\xaa\x02\x06Api.V1\xca\x02\x06Api\\V1\xe2\x02\x12Api\\V1\\GPBMetadata\xea\x02\aApi::V1b\x06proto3"
+	"AtlasProtoP\x01Z)github.com/thetnaingtn/atlas/api/v1;apiv1\xa2\x02\x03AXX\xaa\x02\x06Api.V1\xca\x02\x06Api\\V1\xe2\x02\x12Api\\V1\\GPBMetadata\xea\x02\aApi::V1b\x06proto3"
 
 var (
 	file_api_v1_atlas_proto_rawDescOnce sync.Once
