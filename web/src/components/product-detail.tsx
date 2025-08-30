@@ -1,5 +1,5 @@
 import { Button } from './ui/button'
-import type { Product } from '../gen/api/v1/product_pb'
+import type { Product } from '../types/proto/api/v1/product'
 
 interface Props {
   product: Product
