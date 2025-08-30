@@ -1,35 +1,26 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Routes, Route, Navigate, Link } from 'react-router-dom'
+import ListPage from './pages/ListPage'
+import DetailPage from './pages/DetailPage'
+import CreatePage from './pages/CreatePage'
+import UpdatePage from './pages/UpdatePage'
 
-function App() {
-  const [count, setCount] = useState(0)
-
+export default function App() {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div className="min-h-screen">
+      <header className="border-b p-4">
+        <div className="mx-auto max-w-5xl flex items-center justify-between">
+          <Link to="/" className="text-lg font-semibold">Atlas</Link>
+        </div>
+      </header>
+      <main className="mx-auto max-w-5xl">
+        <Routes>
+          <Route path="/" element={<ListPage />} />
+          <Route path="/products/new" element={<CreatePage />} />
+          <Route path="/products/:id" element={<DetailPage />} />
+          <Route path="/products/:id/edit" element={<UpdatePage />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </main>
+    </div>
   )
 }
-
-export default App
