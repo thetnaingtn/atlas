@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Button } from './ui/button'
 import type { Product } from '../gen/api/v1/product_pb'
-import { productClient } from '../lib/grpc'
+import { productClient } from '../grpc'
 
 interface Props {
   onSelect: (product: Product) => void

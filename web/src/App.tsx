@@ -3,7 +3,7 @@ import { ProductList } from './components/product-list'
 import { ProductDetail } from './components/product-detail'
 import { ProductForm } from './components/product-form'
 import type { Product } from './gen/api/v1/product_pb'
-import { productClient } from './lib/grpc'
+import { productClient } from './grpc'
 
 export default function App() {
   const [view, setView] = useState<'list' | 'detail' | 'create' | 'edit'>('list')
