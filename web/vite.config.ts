@@ -1,7 +1,27 @@
-import { defineConfig } from 'vite'
-import { svelte } from '@sveltejs/vite-plugin-svelte'
+import tailwindcss from '@tailwindcss/vite';
+import { sveltekit } from '@sveltejs/kit/vite';
+import { defineConfig } from 'vite';
 
-// https://vite.dev/config/
+const devProxyServer = 'http://localhost:8080';
+
 export default defineConfig({
-  plugins: [svelte()],
-})
+	plugins: [tailwindcss(), sveltekit()],
+	server: {
+    host: "0.0.0.0",
+    port: 8888,
+    proxy: {
+      "^/api": {
+        target: devProxyServer,
+        xfwd: true,
+      },
+      "^/api.v1.*": {
+        target: devProxyServer,
+        xfwd: true,
+      },
+      "^/file": {
+        target: devProxyServer,
+        xfwd: true,
+      },
+    },
+  },
+});
