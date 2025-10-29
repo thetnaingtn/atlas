@@ -8,7 +8,6 @@ import (
 
 	"atlas/internal/config"
 	apiv1 "atlas/proto/gen/api/v1"
-	"atlas/server/frontend"
 	"atlas/store"
 
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
@@ -59,7 +58,7 @@ func (s *APIV1Service) RegisterGateway(ctx context.Context, mux *http.ServeMux) 
 			return true
 		}),
 	}
-	frontendService := frontend.NewFrontendService(&s.store, s.config)
+
 	grpcWebProxy := grpcweb.WrapServer(s.grpcServer, grpcWebOptions...)
 
 	handler := func(w http.ResponseWriter, r *http.Request) {
@@ -75,7 +74,7 @@ func (s *APIV1Service) RegisterGateway(ctx context.Context, mux *http.ServeMux) 
 			return
 		}
 
-		frontendService.ServeHTTP(w, r)
+		http.NotFound(w, r)
 	}
 
 	mux.Handle("/", http.HandlerFunc(handler))
